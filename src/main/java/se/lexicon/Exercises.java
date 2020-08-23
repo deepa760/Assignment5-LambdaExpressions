@@ -93,14 +93,19 @@ public class Exercises {
         7.	Find all people who are below age of 10 and convert them to a String like this:
             “Olle Svensson 9 years”. Use findManyAndMapEachToString() method.
      */
-    public static void exercise7(String message) {
+    public static void exercise7(String message){
         System.out.println(message);
         //Write your code here
 
         LocalDate date = LocalDate.parse("2010-01-01");
-        System.out.println(storage.findManyAndMapEachToString(person-> Boolean.parseBoolean("name"+person.getFirstName()+" "+person.getLastName()+
-                "born"+person.getBirthDate());
+        System.out.println(storage.findManyAndMapEachToString(
+                person -> person.getBirthDate().isAfter(date),
+                person -> "Name: "+person.getFirstName()+" "+person.getLastName()+" born: "+person.getBirthDate()
+        ));
+
+        System.out.println("----------------------");
     }
+
 
     /*
         8.	Using findAndDo() print out all people with firstName “Ulf”.
@@ -117,16 +122,17 @@ public class Exercises {
     /*
         9.	Using findAndDo() print out everyone who have their lastName contain their firstName.
      */
-    public static void exercise9(String message) {
+    public static void exercise9(String message){
         System.out.println(message);
         //Write your code here
+
         storage.findAndDo(
                 person -> person.getLastName().contains(person.getFirstName()),
-                person -> System.out.println(person);
+                person -> System.out.println(person)
+        );
 
-
-        }
-
+        System.out.println("----------------------");
+    }
     /*
         10.	Using findAndDo() print out the firstName and lastName of everyone whose firstName is a palindrome.
      */

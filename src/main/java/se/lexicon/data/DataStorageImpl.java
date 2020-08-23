@@ -1,22 +1,20 @@
 package se.lexicon.data;
 
-
 import se.lexicon.model.Person;
 import se.lexicon.util.PersonGenerator;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Comparator;
 import java.util.List;
 import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.function.Predicate;
-import java.util.*;
-
-
+import java.util.stream.Collectors;
 /**
  * Create implementations for all methods. I have already provided an implementation for the first method *
  */
-public class DataStorageImpl implements DataStorage {
+public class DataStorageImpl<comparator> implements DataStorage {
 
     private static final DataStorage INSTANCE;
 
@@ -68,24 +66,46 @@ public class DataStorageImpl implements DataStorage {
     @Override
     public List<String> findManyAndMapEachToString(Predicate<Person> filter, Function<Person, String> personToString)
     {
-
-
-
-        return null;
-
+        List<String> stringList = new ArrayList<>();
+        for(Person person : personList){
+            if(filter.test(person)){
+                stringList.add(person.toString());
+            }
+        }
+        return stringList;
     }
-
     @Override
     public void findAndDo(Predicate<Person> filter, Consumer<Person> consumer) {
+        for(Person person : personList) {
+            if (filter.test(person)) {
+                consumer.accept(person);
+            }
+        }
+
     }
 
     @Override
-    public List<Person> findAndSort(Comparator<Person> comparator) {
-        return null;
+    public List<Person> findAndSort(Comparator<Person> comparator)
+    {
+        List<Person> result = new ArrayList<>();
+        for (Person person : personList)
+        {
+            result.add(person);
+        }
+        result.sort(comparator);
+        return result;
     }
 
     @Override
-    public List<Person> findAndSort(Predicate<Person> filter, Comparator<Person> comparator) {
-        return null;
+    public List<Person> findAndSort(Predicate<Person> filter, Comparator<Person> comparator)
+    {
+        List<Person>result=new ArrayList();
+        for(Person person : personList){
+            if(filter.test(person)){
+                result.add(person);
+            }
+        }
+        result.sort(comparator);
+        return result;
     }
 }

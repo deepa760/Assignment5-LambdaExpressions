@@ -10,7 +10,7 @@ public class Person {
 	private String lastName;
 	private LocalDate birthDate;
 	private Gender gender;
-	
+
 	public Person(String firstName, String lastName, LocalDate birthDate, Gender gender) {
 		this.firstName = firstName;
 		this.lastName = lastName;
@@ -47,7 +47,9 @@ public class Person {
 		return counter;
 	}
 
-	public static void setCounter(int counter) { Person.counter = counter;}
+	public static void setCounter(int counter) {
+		Person.counter = counter;
+	}
 
 	public LocalDate getBirthDate() {
 		return birthDate;
@@ -94,6 +96,4 @@ public class Person {
 		return sb.toString();
 	}
 
-	public String getFirstName() {
-	}
 }
