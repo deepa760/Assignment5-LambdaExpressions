@@ -25,4 +25,6 @@ public interface DataStorage {
     List<Person> findAndSort(Comparator<Person> comparator);
 
     List<Person> findAndSort(Predicate<Person> filter, Comparator<Person> comparator);
+
+    List<Person> findAndDo(Predicate<Person> firstNameUlf);
 }

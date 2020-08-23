@@ -68,7 +68,7 @@ public class DataStorageImpl implements DataStorage {
     @Override
     public List<String> findManyAndMapEachToString(Predicate<Person> filter, Function<Person, String> personToString)
     {
-         
+
 
 
         return null;

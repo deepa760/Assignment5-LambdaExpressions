@@ -3,6 +3,7 @@ package se.lexicon;
 import se.lexicon.data.DataStorage;
 import se.lexicon.model.Person;
 import java.time.LocalDate;
+import java.util.Comparator;
 import java.util.List;
 import java.util.function.Predicate;
 import se.lexicon.data.DataStorage;
@@ -33,6 +34,10 @@ public class Exercises {
      */
     public static void exercise2(String message) {
         System.out.println(message);
+                   storage.findMany(person -> person.getGender() == Gender.FEMALE)
+                    .forEach(System.out::println);
+
+           // System.out.println("----------------------");
         //Write your code here
 
         System.out.println("----------------------");
@@ -43,20 +48,22 @@ public class Exercises {
      */
     public static void exercise3(String message) {
         System.out.println(message);
-        //Write your code here
+        LocalDate date = LocalDate.parse("2000-01-01");
+        Predicate<Person> bornAfter = person ->
+                person.getBirthDate().isAfter(date) || person.getBirthDate().equals(date);
+
+        storage.findMany(bornAfter).forEach(System.out::println);
 
         System.out.println("----------------------");
-    }
-
+    } //Write your code here
     /*
         4.	Find the Person that has an id of 123 using findOne().
      */
     public static void exercise4(String message) {
         System.out.println(message);
         //Write your code here
-
+        System.out.println(storage.findOne(person->person.getId()==123));
         System.out.println("----------------------");
-
     }
 
     /*
@@ -66,8 +73,8 @@ public class Exercises {
     public static void exercise5(String message) {
         System.out.println(message);
         //Write your code here
-
-        System.out.println("----------------------");
+        System.out.println(storage.findOneAndMapToString(person->person.getId()==123,
+                                                         person -> "Name: "+person.getFirstName()+" "+person.getLastName()+" born: "+person.getBirthDate()));
     }
 
     /*
@@ -77,7 +84,9 @@ public class Exercises {
         System.out.println(message);
         //Write your code here
 
-        System.out.println("----------------------");
+        System.out.println(storage.findManyAndMapEachToString( person -> person.getGender() == Gender.MALE && person.getFirstName().startsWith("E"),
+                person -> "Name: "+person.getFirstName()+" "+person.getLastName()+" born: "+person.getBirthDate()
+        ));;
     }
 
     /*
@@ -88,7 +97,9 @@ public class Exercises {
         System.out.println(message);
         //Write your code here
 
-        System.out.println("----------------------");
+        LocalDate date = LocalDate.parse("2010-01-01");
+        System.out.println(storage.findManyAndMapEachToString(person-> Boolean.parseBoolean("name"+person.getFirstName()+" "+person.getLastName()+
+                "born"+person.getBirthDate());
     }
 
     /*
@@ -97,8 +108,10 @@ public class Exercises {
     public static void exercise8(String message) {
         System.out.println(message);
         //Write your code here
-
-        System.out.println("----------------------");
+        Predicate<Person> firstNameUlf = person -> person.getFirstName().equalsIgnoreCase("Ulf");
+        List<Person> personList = storage.findAndDo(firstNameUlf);
+        //forEach
+        personList.forEach(System.out::println);
     }
 
     /*
@@ -107,9 +120,12 @@ public class Exercises {
     public static void exercise9(String message) {
         System.out.println(message);
         //Write your code here
+        storage.findAndDo(
+                person -> person.getLastName().contains(person.getFirstName()),
+                person -> System.out.println(person);
 
-        System.out.println("----------------------");
-    }
+
+        }
 
     /*
         10.	Using findAndDo() print out the firstName and lastName of everyone whose firstName is a palindrome.
@@ -118,7 +134,11 @@ public class Exercises {
         System.out.println(message);
         //Write your code here
 
-        System.out.println("----------------------");
+                storage.findAndDo(
+                        person -> person.getFirstName().equalsIgnoreCase(new StringBuilder(person.getFirstName()).reverse().toString()),
+                        person -> System.out.println(person)
+                );
+
     }
 
     /*
@@ -128,7 +148,8 @@ public class Exercises {
         System.out.println(message);
         //Write your code here
 
-        System.out.println("----------------------");
+         storage.findAndSort(person->person.getFirstName().startsWith("A"),
+                 Comparator.comparing(Person::getBirthDate));
     }
 
     /*
@@ -138,7 +159,12 @@ public class Exercises {
         System.out.println(message);
         //Write your code here
 
-        System.out.println("----------------------");
+        LocalDate date = LocalDate.parse("1950-01-01");
+
+        System.out.println(storage.findAndSort(
+                person -> person.getBirthDate().isBefore(date),
+                Comparator.comparing(Person::getBirthDate).reversed()
+        ));
     }
 
     /*
